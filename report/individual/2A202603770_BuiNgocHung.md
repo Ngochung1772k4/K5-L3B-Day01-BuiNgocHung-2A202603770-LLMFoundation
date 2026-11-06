@@ -9,12 +9,12 @@
 
 ## 1. Bằng chứng
 
-Các tệp minh chứng được lưu trong cùng thư mục `report/individual/`.
+Các tệp minh chứng được lưu trong thư mục `report/individual/`.
 
 | Tệp | Nội dung | Trạng thái |
 |---|---|---|
 | [day01_lab.ipynb](day01_lab.ipynb) | Notebook thực hiện bài lab và lưu kết quả | ☑ |
-| [lab1_report.json](lab1_report.json) | Kết quả thực nghiệm, dự đoán ban đầu và thời gian thực hiện | ☑ |
+| [lab1_report.json](lab1_report.json) | Kết quả thực nghiệm và dự đoán ban đầu | ☑ |
 | [hand_calc.jpg](hand_calc.jpg) | Ảnh ghi lại các phép tính thủ công | ☑ |
 
 **Kết quả kiểm tra tự động:** 15/15 tests passed.
@@ -46,14 +46,14 @@ Các nhóm chức năng đã hoàn thành:
 
 ### 2.2. Nhận xét
 
-- **BoW + LogReg:** F1 test đạt 0.918, F1 SUB đạt 0.974. Mô hình có tốc độ suy luận nhanh nhất, p95 chỉ khoảng 0.065 ms/tin. Precision đạt 1.000 nhưng Recall chỉ đạt khoảng 0.849, cho thấy mô hình có thể bỏ sót một số tin nhắn spam.
-- **BoW + MLP:** F1 test tăng lên 0.928 nhưng F1 SUB không tăng so với BoW + LogReg.
-- **MiniLM + kNN:** F1 test đạt 0.868 và p95 đạt 52.114 ms, không đáp ứng SLA dưới 50 ms.
-- **MiniLM + LogReg:** F1 test đạt 0.959, F1 SUB đạt 1.000 và p95 đạt 31.368 ms. Đây là lựa chọn có chất lượng tốt nhất trong nhóm mô hình ML/DL/Embedding đã thử nghiệm.
-- **MiniLM + MLP head:** F1 test đạt 0.941 và F1 SUB đạt 1.000, nhưng p95 cao hơn MiniLM + LogReg.
-- **LLM:** LLM lớn zero-shot đạt F1 0.952, cao hơn LLM nhỏ zero-shot 0.889. Tuy nhiên, độ trễ của các mô hình LLM khoảng 2.4 giây/tin, cao hơn đáng kể so với các mô hình ML/DL/Embedding.
+- **BoW + LogReg:** F1 test đạt 0.918, F1 SUB đạt 0.974. Đây là mô hình có tốc độ suy luận nhanh nhất, p95 khoảng 0.065 ms/tin. Precision đạt 1.000 nhưng Recall khoảng 0.849, cho thấy mô hình có thể bỏ sót một số tin nhắn spam.
+- **BoW + MLP:** F1 test đạt 0.928, cao hơn BoW + LogReg, nhưng F1 SUB không thay đổi.
+- **MiniLM + kNN:** F1 test đạt 0.868, p95 khoảng 52.114 ms/tin, không đáp ứng yêu cầu p95 dưới 50 ms.
+- **MiniLM + LogReg:** F1 test đạt 0.959, F1 SUB đạt 1.000 và p95 khoảng 31.368 ms/tin. Đây là mô hình có chất lượng tốt nhất trong nhóm ML/DL/Embedding đã thử nghiệm.
+- **MiniLM + MLP head:** F1 test đạt 0.941, F1 SUB đạt 1.000. Tuy nhiên, p95 cao hơn MiniLM + LogReg.
+- **LLM:** LLM lớn zero-shot đạt F1 0.952, cao hơn LLM nhỏ zero-shot 0.889. Tuy nhiên, p95 của các mô hình LLM khoảng 2.4 giây/tin, không đáp ứng yêu cầu xử lý nhanh.
 
-**Nhận xét về chi phí:** Giá trị USD/1k tin trong JSON đều được ghi là 0.00. Đây là giá trị được lưu trong báo cáo thực nghiệm, không đủ căn cứ để kết luận API thực tế hoàn toàn miễn phí.
+**Nhận xét về chi phí:** Giá trị USD/1k tin trong JSON đều được ghi là 0.00. Đây là giá trị được lưu trong báo cáo thực nghiệm, không đủ căn cứ để kết luận việc sử dụng API thực tế hoàn toàn miễn phí.
 
 ---
 
@@ -70,7 +70,7 @@ Các nhóm chức năng đã hoàn thành:
 - **Dự đoán:** Model lớn có F1 cao hơn model nhỏ khoảng 2–5%.
 - **Thực tế:** LLM nhỏ zero-shot đạt F1 = 0.889, LLM lớn zero-shot đạt F1 = 0.952.
 - **Chênh lệch:** 0.952 - 0.889 = 0.063, tương đương 6.3 điểm phần trăm.
-- **Nhận xét:** Model lớn cải thiện F1 nhiều hơn dự đoán ban đầu. Tuy nhiên, độ trễ của cả hai mô hình đều cao, khoảng 2.4 giây/tin, nên không phù hợp với yêu cầu xử lý nhanh.
+- **Nhận xét:** Model lớn cải thiện F1 nhiều hơn dự đoán ban đầu. Tuy nhiên, độ trễ của cả hai mô hình đều khoảng 2.4 giây/tin, không phù hợp với yêu cầu xử lý nhanh.
 
 ### 3.3. Thử nghiệm bỏ ReLU
 
@@ -177,7 +177,7 @@ Sau đó, sử dụng BoW + LogReg và Encoder + LogReg để dự đoán, so s�
 
 ## 6. Phương án cho sản phẩm thật
 
-Với yêu cầu p95 < 50 ms/tin và 10 triệu SMS/ngày, tôi chọn **MiniLM + LogReg** làm mô hình chính.
+Với yêu cầu p95 < 50 ms/tin và 10 triệu SMS/ngày, em chọn **MiniLM + LogReg** làm mô hình phân loại chính.
 
 ### 6.1. Lý do lựa chọn
 
@@ -194,36 +194,48 @@ Với yêu cầu p95 < 50 ms/tin và 10 triệu SMS/ngày, tôi chọn **MiniLM 
 \frac{10,000,000}{86,400} \approx 115.74 \text{ tin/giây}
 \]
 
-MiniLM + LogReg đạt throughput đo được khoảng 58.50 tin/giây trong thí nghiệm.
+MiniLM + LogReg đạt throughput đo được khoảng 58.5 tin/giây trong thí nghiệm.
 
 Như vậy, một instance theo kết quả benchmark hiện tại chưa đủ để đáp ứng mức tải trung bình 115.74 tin/giây.
 
-Cần triển khai nhiều instance chạy song song, sử dụng load balancer và thực hiện benchmark dưới tải thực tế để xác định số lượng máy cần thiết. Đồng thời cần tính đến tải cao điểm, thời gian khởi tạo model, tài nguyên CPU/RAM và khả năng mở rộng khi lượng SMS tăng.
+Cần triển khai nhiều instance chạy song song, sử dụng load balancer và thực hiện benchmark dưới tải thực tế để xác định số lượng máy cần thiết. Đồng thời cần tính đến tải cao điểm, tài nguyên CPU/RAM và khả năng mở rộng khi lượng SMS tăng.
 
-### 6.3. Đánh đổi và phương án dự phòng
+### 6.3. Đánh đổi và chi phí LLM
 
 Nếu hệ thống ưu tiên tốc độ và tiết kiệm tài nguyên hơn, BoW + LogReg là lựa chọn thay thế vì có p95 chỉ 0.065 ms/tin và F1 SUB đạt 0.974.
 
-Không nên đưa LLM vào luồng xử lý chính vì p95 khoảng 2.4 giây/tin, không đáp ứng SLA. Có thể cân nhắc sử dụng LLM cho các trường hợp mô hình chính không chắc chắn nếu hệ thống cho phép xử lý bất đồng bộ.
+Không nên đưa LLM vào luồng xử lý chính vì p95 khoảng 2.4 giây/tin, không đáp ứng SLA.
 
-### 6.4. Kiến trúc đề xuất
+Theo phép tính chi phí thủ công trong bài lab, nếu xử lý 1 triệu SMS/ngày với chi phí khoảng 10.50 USD/ngày thì với 10 triệu SMS/ngày:
 
-1. SMS Gateway tiếp nhận tin nhắn.
-2. Tiền xử lý và chuẩn hóa nội dung.
-3. MiniLM tạo embedding.
-4. Logistic Regression dự đoán xác suất spam.
-5. Rule-based layer xử lý các trường hợp đặc biệt.
-6. Trả kết quả và lưu log để theo dõi.
+- Chi phí mỗi ngày: 10.50 × 10 = 105 USD.
+- Chi phí trong 30 ngày: 105 × 30 = **3,150 USD/tháng**.
 
-Có thể sử dụng BoW + LogReg làm mô hình fallback khi cần giảm tài nguyên hoặc khi dịch vụ embedding gặp sự cố.
+Đây là ước tính theo giả định chi phí tăng tuyến tính với số lượng tin nhắn và mức sử dụng token. Chi phí thực tế có thể thay đổi tùy model, độ dài tin nhắn và giá API tại thời điểm sử dụng.
 
-**Kết luận:** MiniLM + LogReg là lựa chọn cân bằng tốt giữa chất lượng và độ trễ trong các mô hình đã thử nghiệm. Tuy nhiên, cần tiếp tục kiểm thử tải và đánh giá trên dữ liệu thực tế trước khi triển khai chính thức.
+### 6.4. Kiến trúc đề xuất – Hybrid Router
+
+Em đề xuất kết hợp MiniLM + LogReg với LLM theo cơ chế confidence-based router:
+
+1. **Tiếp nhận:** SMS Gateway nhận tin nhắn và thực hiện tiền xử lý.
+2. **Phân loại chính:** MiniLM tạo embedding, sau đó Logistic Regression dự đoán nhãn và xác suất spam.
+3. **Tin có độ tin cậy cao:** Nếu xác suất dưới 0.3 hoặc trên 0.7, hệ thống sử dụng kết quả của mô hình chính.
+4. **Tin chưa chắc chắn:** Nếu xác suất nằm trong khoảng [0.3, 0.7], hệ thống chuyển tin nhắn sang LLM để phân tích thêm ngữ cảnh.
+5. **Trả kết quả:** Kết hợp kết quả phân tích và đưa ra nhãn HAM hoặc SPAM cuối cùng.
+
+Ngưỡng 0.3–0.7 là giá trị đề xuất ban đầu, cần được hiệu chỉnh bằng tập validation trước khi triển khai.
+
+Thiết kế này giúp phần lớn tin nhắn được xử lý bằng mô hình có tốc độ nhanh, trong khi LLM chỉ xử lý những trường hợp khó. Nhờ đó, hệ thống có thể giảm số lần gọi API, tiết kiệm chi phí và cân bằng giữa chất lượng phân loại với tốc độ xử lý.
+
+Tuy nhiên, cần kiểm chứng tỷ lệ tin nhắn được chuyển sang LLM, độ trễ tổng thể và chất lượng phân loại trước khi áp dụng thực tế.
+
+**Kết luận:** MiniLM + LogReg là lựa chọn cân bằng tốt giữa chất lượng và độ trễ trong các mô hình đã thử nghiệm. Kết hợp với LLM qua Router có thể cải thiện khả năng xử lý các trường hợp khó, nhưng cần tiếp tục kiểm thử tải và đánh giá chi phí trước khi triển khai chính thức.
 
 ---
 
-## 7. AI log và điều đã học
+## 7. Prediction Log, AI Usage Log và điều đã học
 
-### 7.1. AI log – Dự đoán trước khi chạy thí nghiệm
+### 7.1. Prediction Log – Dự đoán trước khi chạy thí nghiệm
 
 Các dự đoán ban đầu được ghi trong `lab1_report.json` với SEED = 178:
 
@@ -240,9 +252,21 @@ Các dự đoán ban đầu được ghi trong `lab1_report.json` với SEED = 1
 | 13:55:06 | BoW + LogReg và MiniLM + LogReg có thể nằm trên Pareto front |
 | 13:55:07 | BoW dự kiến giảm mạnh trên 50 case khó; embedding và LLM có thể tốt hơn |
 
-### 7.2. Điều tôi học được
+### 7.2. AI Usage Log – Nhật ký sử dụng AI
 
-Qua bài lab, tôi hiểu rõ hơn sự khác nhau giữa các phương pháp phân loại văn bản:
+Trong quá trình thực hiện bài lab, em sử dụng ChatGPT để hỗ trợ giải thích kiến thức ML/DL, tìm hiểu lỗi trong quá trình triển khai code và hỗ trợ phân tích kết quả thực nghiệm.
+
+| Công cụ | Mục đích sử dụng | Cách kiểm chứng |
+|---|---|---|
+| ChatGPT | Giải thích thuật toán và các khái niệm ML/DL | Đối chiếu với nội dung bài học và kết quả chạy notebook |
+| ChatGPT | Hỗ trợ tìm hiểu lỗi code và cách triển khai | Chạy lại code và kiểm tra kết quả thực tế |
+| ChatGPT | Hỗ trợ phân tích kết quả và trình bày báo cáo | Đối chiếu số liệu với `lab1_report.json` và output notebook |
+
+**Vai trò cá nhân:** Em trực tiếp thực hiện các thí nghiệm, kiểm tra kết quả, đánh giá các mô hình và quyết định nội dung cuối cùng của báo cáo. Các gợi ý từ AI chỉ được sử dụng như tài liệu hỗ trợ và không thay thế kết quả thực nghiệm.
+
+### 7.3. Điều em học được
+
+Qua bài lab, em hiểu rõ hơn sự khác nhau giữa các phương pháp phân loại văn bản:
 
 - **BoW + Logistic Regression:** Đơn giản, tốc độ cao nhưng phụ thuộc nhiều vào đặc trưng từ vựng.
 - **MLP:** Có thể học các quan hệ phi tuyến nhờ activation function, nhưng mô hình phức tạp hơn không phải lúc nào cũng cho kết quả tốt hơn.
@@ -250,8 +274,8 @@ Qua bài lab, tôi hiểu rõ hơn sự khác nhau giữa các phương pháp ph
 - **LLM:** Có khả năng phân tích ngữ cảnh và xử lý dữ liệu khó, nhưng độ trễ cao.
 - **Few-shot và prompt engineering:** Có thể cải thiện kết quả nhưng cần cân nhắc thêm chi phí và thời gian phản hồi.
 
-Điều tôi dự đoán chưa chính xác nhất là việc bỏ ReLU sẽ làm F1 giảm. Kết quả thực tế lại tăng nhẹ từ 0.928 lên khoảng 0.934.
+Điều em dự đoán chưa chính xác nhất là việc bỏ ReLU sẽ làm F1 giảm. Kết quả thực tế lại tăng nhẹ từ 0.928 lên khoảng 0.934. Qua đó, em hiểu rằng kết quả thực nghiệm có thể khác với giả thuyết ban đầu và cần được kiểm chứng bằng dữ liệu.
 
-Tôi cũng nhận ra rằng không nên chỉ đánh giá mô hình bằng F1. Khi lựa chọn mô hình cho sản phẩm thực tế, cần xem xét đồng thời chất lượng phân loại, độ trễ, throughput, chi phí và khả năng mở rộng hệ thống.
+Em cũng nhận ra rằng không nên chỉ đánh giá mô hình bằng F1. Khi lựa chọn mô hình cho sản phẩm thực tế, cần xem xét đồng thời chất lượng phân loại, độ trễ, throughput, chi phí và khả năng mở rộng hệ thống.
 
-**Tổng kết:** Qua Day 01, tôi đã thực hành xây dựng và đánh giá các mô hình Machine Learning, Deep Learning, Embedding và LLM cho bài toán phân loại SMS spam. Quan trọng hơn, tôi hiểu cách so sánh mô hình dựa trên kết quả thực nghiệm và các yêu cầu triển khai thực tế.
+**Tổng kết:** Qua Day 01, em đã thực hành xây dựng và đánh giá các mô hình Machine Learning, Deep Learning, Embedding và LLM cho bài toán phân loại SMS spam. Quan trọng hơn, em hiểu cách so sánh mô hình dựa trên kết quả thực nghiệm và các yêu cầu triển khai thực tế.
